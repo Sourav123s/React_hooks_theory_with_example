@@ -4,7 +4,8 @@ import './App.css';
 // import UseContext from './components/useContext/index'
 // import Counter from './components/useRef/useRef';
 // import TextInput from './components/useRef/useRefUsingHtml';
-import UesEffectIndex from './components/useEffect/index'
+// import UesEffectIndex from './components/useEffect/index'
+import UseMemoIndex from './components/useMemo/index'
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <UseContext/>
         <Counter/> */}
         {/* <TextInput/> */}
-        <UesEffectIndex/>
+        {/* <UesEffectIndex/> */}
+        <UseMemoIndex/>
     </div>
   );
 }
