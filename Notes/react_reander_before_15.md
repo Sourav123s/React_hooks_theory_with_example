@@ -106,20 +106,17 @@ This makes updates **faster** and **more efficient**.
 
 React 15 (before Fiber) used a **recursive stack-based reconciliation** process to update the UI.
 
-### **🔹 Step 1: State/Props Change Triggers Reconciliation**
+### **🔹 What is Stack-Based Reconciliation?**
 
-- When state or props changed, React **re-ran the affected component function** (for functional components) or `render()` (for class components).
-- This generated a **new Virtual DOM tree**.
+Before Fiber, React used a **recursive call stack** approach for rendering and updating components. This process worked as follows:
 
-### **🔹 Step 2: Stack-Based Reconciliation**
+1. When a component’s **state or props changed**, React triggered an update starting from the root component.
+2. React used the **JavaScript call stack** to recursively traverse and render each component in depth-first order.
+3. Each component’s **render method (class components) or function body (functional components)** executed, generating a new Virtual DOM.
+4. React compared the new Virtual DOM with the previous one and applied only the necessary changes to the real DOM.
+5. This process **was synchronous and could not be paused, interrupted, or prioritized**.
 
-React used a **synchronous, depth-first recursion** to traverse and update the UI:
-
-1. React **started from the root component** and **recursively traversed** each child.
-2. Each component called its **`render()` method** (class components) or **executed its function body** (functional components).
-3. This process **could not be stopped, paused, or prioritized**.
-
-#### **Example: Recursive Rendering (Class Components)**
+### **🔹 Example: Recursive Stack-Based Reconciliation (Class Components)**
 
 ```jsx
 class App extends React.Component {
@@ -153,7 +150,7 @@ class Footer extends React.Component {
 }
 ```
 
-🔹 **How React Processes This:**
+🔹 **How React Processed This:**
 
 1. Calls `App.render()` → returns JSX.
 2. Calls `Header.render()` → returns JSX.
@@ -161,42 +158,11 @@ class Footer extends React.Component {
 4. Calls `Footer.render()` → returns JSX.
 5. React **compares the new Virtual DOM with the previous one** and updates only the necessary parts of the real DOM.
 
-👉 **Every component must call its `render()` function recursively, from parent to child, to generate the new UI.**
+### **🔹 Why Stack-Based Reconciliation Was Inefficient**
 
-#### **Example: Recursive Rendering (Functional Components)**
-
-```jsx
-function App() {
-  return (
-    <div>
-      <Header />
-      <Content />
-      <Footer />
-    </div>
-  );
-}
-
-function Header() {
-  return <h1>Welcome</h1>;
-}
-
-function Content() {
-  return <p>Some content here...</p>;
-}
-
-function Footer() {
-  return <p>Footer section</p>;
-}
-```
-
-React calls:
-
-1. `App()` → returns JSX.
-2. `Header()` → returns JSX.
-3. `Content()` → returns JSX.
-4. `Footer()` → returns JSX.
-
-Even though there’s no `render()` method in function components, React still **calls the function body of each component to generate the new Virtual DOM.**
+- **Synchronous Execution:** The entire UI update had to complete in a single JavaScript tick, which could block the main thread.
+- **No Interruption or Prioritization:** React could not pause work to handle urgent updates like animations or user interactions.
+- **Slow Performance on Large Applications:** If the component tree was deep, updates took longer, causing UI lags.
 
 ---
 
