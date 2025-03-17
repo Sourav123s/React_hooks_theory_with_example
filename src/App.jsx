@@ -8,7 +8,7 @@ import React from "react";
 // import UseMemoIndex from "./components/useMemo/index.jsx";
 // import UseImperativeHandel from "./components/useImperativeHandel/index.jsx"
 // import DemoOnCounter from "./components/useImperativeHandel/DemoOnCounter";
-// import UseReducerIndex from "./components/useReducer/index.jsx"
+import UseReducerIndex from "./components/useReducer/index.jsx"
 import Demo from "./components/useTransitions";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
       {/* <UseMemoIndex />
       <UseImperativeHandel /> */}
       {/* <DemoOnCounter /> */}
-      {/* <UseReducerIndex /> */}
+      <UseReducerIndex />
       <Demo />
     </div>
   );

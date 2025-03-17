@@ -1,6 +1,6 @@
 import React, { useTransition } from 'react';
 
-import Button from '@/components/ui/Button/Button';
+// import Button from '@/components/ui/Button/Button';
 
 
 const TabButton = ({
@@ -11,7 +11,7 @@ const TabButton = ({
 
     const handleClick = () => {
         startTransition(() => {
-            onClick?.();
+            onClick();
         });
     };
 
@@ -19,7 +19,13 @@ const TabButton = ({
         return <p>Loading...</p>;
     }
 
-    return <Button {...rest} onClick={handleClick} />;
+    return (<button
+        style={{
+            backgroundColor: rest.variant
+        }}
+        onClick={handleClick} >
+        {rest.title}
+    </button>);
 };
 
 export default TabButton;
